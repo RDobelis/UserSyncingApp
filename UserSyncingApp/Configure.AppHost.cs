@@ -1,6 +1,6 @@
 using Funq;
 using UserSyncingApp;
-using UserSyncingApp.App_Data;
+using UserSyncingApp.Data;
 using UserSyncingApp.ServiceInterface;
 
 [assembly: HostingStartup(typeof(AppHost))]

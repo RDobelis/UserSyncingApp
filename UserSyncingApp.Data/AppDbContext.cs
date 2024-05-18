@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyApp.ServiceModel.Types;
 
-namespace UserSyncingApp.App_Data;
+namespace UserSyncingApp.Data;
 
 public class AppDbContext : DbContext
 {

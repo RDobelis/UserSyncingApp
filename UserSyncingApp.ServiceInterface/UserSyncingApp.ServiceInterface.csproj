@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ServiceStack" Version="8.*" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UserSyncingApp.Data\UserSyncingApp.Data.csproj" />
     <ProjectReference Include="..\UserSyncingApp.ServiceModel\UserSyncingApp.ServiceModel.csproj" />
   </ItemGroup>
 
