@@ -10,10 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Geo> Geos { get; set; }
     public DbSet<Company> Companies { get; set; }
     
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite("Data Source=users.db");
-    }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

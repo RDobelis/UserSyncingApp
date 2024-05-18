@@ -1,4 +1,5 @@
 using Funq;
+using Microsoft.EntityFrameworkCore;
 using UserSyncingApp;
 using UserSyncingApp.Data;
 using UserSyncingApp.ServiceInterface;
@@ -11,7 +12,8 @@ public class AppHost : AppHostBase, IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices(services => {
-            services.AddDbContext<AppDbContext>();
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));            
             services.AddHttpClient<IUserService, UserService>();
             services.AddScoped<IUserService, UserService>();
         });

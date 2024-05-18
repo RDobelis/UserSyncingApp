@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using MyApp.ServiceModel.Types;
 using Newtonsoft.Json;
 using UserSyncingApp.Data;
+using UserSyncingApp.ServiceModel.Exceptions;
 
 namespace UserSyncingApp.ServiceInterface;
 
@@ -26,13 +28,28 @@ public class UserService : IUserService
         var response = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
         var users = JsonConvert.DeserializeObject<List<User>>(response);
 
-        var existingUserIds = _context.Users.Select(u => u.Id).ToList();
+        var existingUsers = _context.Users.ToList();
+        var existingUserIds = existingUsers.Select(u => u.Id).ToHashSet();
+
         var newUsers = users.Where(u => !existingUserIds.Contains(u.Id)).ToList();
         var updatedUsers = users.Where(u => existingUserIds.Contains(u.Id)).ToList();
 
-        await _context.BulkInsertAsync(newUsers);
-        await _context.BulkUpdateAsync(updatedUsers);
+        foreach (var existingUser in existingUsers)
+        {
+            _context.Entry(existingUser).State = EntityState.Detached;
+        }
+
+        await _context.Users.AddRangeAsync(newUsers);
+
+        foreach (var updatedUser in updatedUsers)
+        {
+            _context.Users.Attach(updatedUser);
+            _context.Entry(updatedUser).State = EntityState.Modified;
+        }
+
+        await _context.SaveChangesAsync();
     }
+
 
     public async Task SyncLocalToRemoteAsync()
     {
@@ -55,7 +72,7 @@ public class UserService : IUserService
         
         if (user == null)
         {
-            return;
+            throw new UserNotFoundException(userId);
         }
         
         user.Email = newEmail;
@@ -69,7 +86,7 @@ public class UserService : IUserService
         
         if (user == null)
         {
-            return;
+            throw new UserNotFoundException(userId);
         }
         
         _context.Users.Remove(user);
