@@ -31,6 +31,7 @@
     <ProjectReference Include="..\UserSyncingApp.Data\UserSyncingApp.Data.csproj" />
     <ProjectReference Include="..\UserSyncingApp.ServiceInterface\UserSyncingApp.ServiceInterface.csproj" />
     <ProjectReference Include="..\UserSyncingApp.ServiceModel\UserSyncingApp.ServiceModel.csproj" />
+    <ProjectReference Include="..\UserSyncingApp.ServiceStackServices\UserSyncingApp.ServiceStackServices.csproj" />
   </ItemGroup>
 
 </Project>

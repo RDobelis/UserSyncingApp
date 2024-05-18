@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSyncingApp.Tests", "Use
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSyncingApp.Data", "UserSyncingApp.Data\UserSyncingApp.Data.csproj", "{DEABA3B3-ADDA-426E-9195-86FC3D3C6B60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSyncingApp.ServiceStackServices", "UserSyncingApp.ServiceStackServices\UserSyncingApp.ServiceStackServices.csproj", "{0972FD35-45B5-42E1-BA3E-04DC25D48756}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DEABA3B3-ADDA-426E-9195-86FC3D3C6B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEABA3B3-ADDA-426E-9195-86FC3D3C6B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEABA3B3-ADDA-426E-9195-86FC3D3C6B60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0972FD35-45B5-42E1-BA3E-04DC25D48756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0972FD35-45B5-42E1-BA3E-04DC25D48756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0972FD35-45B5-42E1-BA3E-04DC25D48756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0972FD35-45B5-42E1-BA3E-04DC25D48756}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

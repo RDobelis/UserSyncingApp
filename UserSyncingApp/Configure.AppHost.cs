@@ -1,30 +1,33 @@
 using Funq;
 using Microsoft.EntityFrameworkCore;
-using UserSyncingApp;
 using UserSyncingApp.Data;
 using UserSyncingApp.ServiceInterface;
+using UserSyncingApp.ServiceStackServices;
 
 [assembly: HostingStartup(typeof(AppHost))]
 
-namespace UserSyncingApp;
-
-public class AppHost : AppHostBase, IHostingStartup
+namespace UserSyncingApp
 {
-    public void Configure(IWebHostBuilder builder) => builder
-        .ConfigureServices(services => {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));            
-            services.AddHttpClient<IUserService, UserService>();
-            services.AddScoped<IUserService, UserService>();
-        });
-
-    public AppHost() : base("UserSyncingApp", typeof(UserService).Assembly) {}
-
-    public override void Configure(Container container)
+    public class AppHost : AppHostBase, IHostingStartup
     {
-        // Configure ServiceStack only IOC, Config & Plugins
-        SetConfig(new HostConfig {
-            UseSameSiteCookies = true,
-        });
+        public AppHost() : base("UserSyncingApp", typeof(UserSyncService).Assembly) { }
+
+        public void Configure(IWebHostBuilder builder) => builder
+            .ConfigureServices((context, services) =>
+            {
+                var configuration = context.Configuration;
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+                services.AddHttpClient<IUserService, UserService>();
+                services.AddScoped<IUserService, UserService>();
+            });
+
+        public override void Configure(Container container)
+        {
+            SetConfig(new HostConfig
+            {
+                UseSameSiteCookies = true,
+            });
+        }
     }
 }
