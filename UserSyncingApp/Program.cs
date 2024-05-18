@@ -1,6 +1,4 @@
-﻿using UserSyncingApp;
-
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 

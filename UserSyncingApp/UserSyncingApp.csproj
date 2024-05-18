@@ -9,7 +9,7 @@
     <PackageId>UserSyncingApp</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <Using Include="MyApp" />
+    <Using Include="UserSyncingApp" />
     <Using Include="ServiceStack" />
   </ItemGroup>
 
