@@ -6,8 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
-    <PackageId>UserSyncingApp.Api</PackageId>
-    <RootNamespace>MyApp</RootNamespace>
+    <PackageId>UserSyncingApp</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="MyApp" />
@@ -19,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
     <PackageReference Include="ServiceStack" Version="8.*" />
   </ItemGroup>
 

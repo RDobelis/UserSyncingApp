@@ -1,10 +1,10 @@
 ﻿using Funq;
-using ServiceStack;
-using NUnit.Framework;
-using MyApp.ServiceInterface;
 using MyApp.ServiceModel;
+using NUnit.Framework;
+using ServiceStack;
+using UserSyncingApp.ServiceInterface;
 
-namespace MyApp.Tests;
+namespace UserSyncingApp.Tests;
 
 public class IntegrationTest
 {
@@ -13,7 +13,7 @@ public class IntegrationTest
 
     class AppHost : AppSelfHostBase
     {
-        public AppHost() : base(nameof(IntegrationTest), typeof(MyServices).Assembly) { }
+        public AppHost() : base(nameof(IntegrationTest), typeof(UserService).Assembly) { }
 
         public override void Configure(Container container)
         {

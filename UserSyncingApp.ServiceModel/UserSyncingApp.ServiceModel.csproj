@@ -2,15 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>MyApp.ServiceModel</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ServiceStack.Interfaces" Version="8.*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Types\" />
   </ItemGroup>
 
 </Project>
