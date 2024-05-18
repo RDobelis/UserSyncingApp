@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using EFCore.BulkExtensions;
 using MyApp.ServiceModel.Types;
 using Newtonsoft.Json;
 using UserSyncingApp.Data;
@@ -25,19 +26,12 @@ public class UserService : IUserService
         var response = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
         var users = JsonConvert.DeserializeObject<List<User>>(response);
 
-        foreach (var user in users)
-        {
-            var existingUser = _context.Users.SingleOrDefault(u => u.Id == user.Id);
-            if (existingUser == null)
-            {
-                _context.Users.Add(user);
-            }
-            else
-            {
-                _context.Entry(existingUser).CurrentValues.SetValues(user);
-            }
-        }
-        await _context.SaveChangesAsync();
+        var existingUserIds = _context.Users.Select(u => u.Id).ToList();
+        var newUsers = users.Where(u => !existingUserIds.Contains(u.Id)).ToList();
+        var updatedUsers = users.Where(u => existingUserIds.Contains(u.Id)).ToList();
+
+        await _context.BulkInsertAsync(newUsers);
+        await _context.BulkUpdateAsync(updatedUsers);
     }
 
     public async Task SyncLocalToRemoteAsync()
@@ -49,14 +43,9 @@ public class UserService : IUserService
         foreach (var localUser in localUsers)
         {
             var remoteUser = remoteUsers.SingleOrDefault(u => u.Id == localUser.Id);
-            if (remoteUser == null)
-            {
-                Console.WriteLine($"Prepare to insert: {JsonConvert.SerializeObject(localUser)}");
-            }
-            else
-            {
-                Console.WriteLine($"Prepare to update: {JsonConvert.SerializeObject(localUser)}");
-            }
+            Console.WriteLine(remoteUser == null
+                ? $"PUT: {JsonConvert.SerializeObject(localUser)}"
+                : $"UPDATE: {JsonConvert.SerializeObject(localUser)}");
         }
     }
 
