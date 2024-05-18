@@ -106,7 +106,7 @@ public class UserServiceTests
         _context.Users.Add(localUser);
         _context.SaveChanges();
 
-        _userService.UpdateUser(1, "new.email@example.com");
+        _userService.UpdateUserEmail(1, "new.email@example.com");
 
         var updatedUser = _context.Users.SingleOrDefault(u => u.Id == 1);
         updatedUser.Should().NotBeNull();
@@ -116,7 +116,7 @@ public class UserServiceTests
     [Test]
     public void UpdateUser_WhenUserNotFound_ShouldThrowUserNotFoundException()
     {
-        var act = () => _userService.UpdateUser(1, "test@example.com");
+        var act = () => _userService.UpdateUserEmail(1, "test@example.com");
         
         act.Should().Throw<UserNotFoundException>().WithMessage("User with id 1 not found");
     }

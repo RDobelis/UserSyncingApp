@@ -6,6 +6,6 @@ public interface IUserService
 {
     Task SyncRemoteToLocalAsync();
     Task SyncLocalToRemoteAsync();
-    void UpdateUser(int userId, string newEmail);
+    void UpdateUserEmail(int userId, string newEmail);
     void DeleteUser(int userId);
 }

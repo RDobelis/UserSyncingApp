@@ -54,7 +54,7 @@ namespace UserSyncingApp.ServiceInterface
             }
         }
 
-        public void UpdateUser(int userId, string newEmail)
+        public void UpdateUserEmail(int userId, string newEmail)
         {
             var user = ValidateLocalUser(userId);
             
