@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UserSyncingApp.Data;
@@ -43,8 +44,12 @@ public class UserServiceTests
 
         _httpMessageHandler = new MockHttpMessageHandler(responseMessage);
         _httpClient = new HttpClient(_httpMessageHandler);
+        
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string> { { "UserDataEndpoint", "https://example.com/users" } })
+            .Build();
 
-        _userService = new UserService(_httpClient, _context);
+        _userService = new UserService(_httpClient, _context, configuration);
     }
     
     [TearDown]

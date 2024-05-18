@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using UserSyncingApp.Data;
 using UserSyncingApp.ServiceModel.Exceptions;
@@ -15,11 +16,13 @@ namespace UserSyncingApp.ServiceInterface
     {
         private readonly HttpClient _httpClient;
         private readonly AppDbContext _context;
+        private readonly string _userDataEndpoint;
 
-        public UserService(HttpClient httpClient, AppDbContext context)
+        public UserService(HttpClient httpClient, AppDbContext context, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _context = context;
+            _userDataEndpoint = configuration["UserDataEndpoint"];
         }
 
         public async Task SyncRemoteToLocalAsync()
@@ -71,7 +74,7 @@ namespace UserSyncingApp.ServiceInterface
 
         private async Task<List<User>> FetchRemoteUsersAsync()
         {
-            var response = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
+            var response = await _httpClient.GetStringAsync(_userDataEndpoint);
             
             return JsonConvert.DeserializeObject<List<User>>(response);
         }
