@@ -14,4 +14,8 @@
       <ProjectReference Include="..\UserSyncingApp.ServiceInterface\UserSyncingApp.ServiceInterface.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="obj\Debug\net8.0\" />
+    </ItemGroup>
+
 </Project>
