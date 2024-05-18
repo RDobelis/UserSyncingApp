@@ -22,6 +22,12 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .Property(u => u.EmailAlias)
-            .HasComputedColumnSql("SUBSTR([Name], 1, 1) || SUBSTR([Name], INSTR([Name], ' ') + 1) || '@ibsat.com'");
+            .HasComputedColumnSql(GetSqlQueryForEmailAlias());
     }
+
+    private static string GetSqlQueryForEmailAlias() =>
+        "SUBSTR([Name], 1, 1) || " +
+        "TRIM(SUBSTR(SUBSTR([Name], INSTR([Name], ' ') + 1), 1, " +
+        "CASE WHEN INSTR(SUBSTR([Name], INSTR([Name], ' ') + 1), ' ') > 0 THEN INSTR(SUBSTR([Name], INSTR([Name], ' ') + 1), ' ') ELSE LENGTH([Name]) END)) " +
+        "|| '@ibsat.com'";
 }
