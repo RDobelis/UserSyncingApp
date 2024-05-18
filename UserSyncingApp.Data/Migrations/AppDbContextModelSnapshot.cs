@@ -16,7 +16,7 @@ namespace UserSyncingApp.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
-            modelBuilder.Entity("MyApp.ServiceModel.Types.User", b =>
+            modelBuilder.Entity("UserSyncingApp.ServiceModel.Types.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,9 +47,9 @@ namespace UserSyncingApp.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MyApp.ServiceModel.Types.User", b =>
+            modelBuilder.Entity("UserSyncingApp.ServiceModel.Types.User", b =>
                 {
-                    b.OwnsOne("MyApp.ServiceModel.Types.Address", "Address", b1 =>
+                    b.OwnsOne("UserSyncingApp.ServiceModel.Types.Address", "Address", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("INTEGER");
@@ -76,7 +76,7 @@ namespace UserSyncingApp.Data.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
 
-                            b1.OwnsOne("MyApp.ServiceModel.Types.Geo", "Geo", b2 =>
+                            b1.OwnsOne("UserSyncingApp.ServiceModel.Types.Geo", "Geo", b2 =>
                                 {
                                     b2.Property<int>("AddressUserId")
                                         .HasColumnType("INTEGER");
@@ -101,7 +101,7 @@ namespace UserSyncingApp.Data.Migrations
                             b1.Navigation("Geo");
                         });
 
-                    b.OwnsOne("MyApp.ServiceModel.Types.Company", "Company", b1 =>
+                    b.OwnsOne("UserSyncingApp.ServiceModel.Types.Company", "Company", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("INTEGER");
