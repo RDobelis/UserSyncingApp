@@ -6,12 +6,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using MyApp.ServiceModel.Types;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UserSyncingApp.Data;
 using UserSyncingApp.ServiceInterface;
 using UserSyncingApp.ServiceModel.Exceptions;
+using UserSyncingApp.ServiceModel.Types;
 using UserSyncingApp.Tests.Mocks;
 
 namespace UserSyncingApp.Tests;

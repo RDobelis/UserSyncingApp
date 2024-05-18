@@ -3,94 +3,117 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using MyApp.ServiceModel.Types;
 using Newtonsoft.Json;
 using UserSyncingApp.Data;
 using UserSyncingApp.ServiceModel.Exceptions;
+using UserSyncingApp.ServiceModel.Types;
 
-namespace UserSyncingApp.ServiceInterface;
-
-public class UserService : IUserService
+namespace UserSyncingApp.ServiceInterface
 {
-    private readonly HttpClient _httpClient;
-    private readonly AppDbContext _context;
-
-    public UserService(HttpClient httpClient, AppDbContext context)
+    public class UserService : IUserService
     {
-        _httpClient = httpClient;
-        _context = context;
-    }
+        private readonly HttpClient _httpClient;
+        private readonly AppDbContext _context;
 
-    public async Task SyncRemoteToLocalAsync()
-    {
-        var response = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
-        var users = JsonConvert.DeserializeObject<List<User>>(response);
-
-        var existingUsers = _context.Users.ToList();
-        var existingUserIds = existingUsers.Select(u => u.Id).ToHashSet();
-
-        var newUsers = users.Where(u => !existingUserIds.Contains(u.Id)).ToList();
-        var updatedUsers = users.Where(u => existingUserIds.Contains(u.Id)).ToList();
-
-        foreach (var existingUser in existingUsers)
+        public UserService(HttpClient httpClient, AppDbContext context)
         {
-            _context.Entry(existingUser).State = EntityState.Detached;
+            _httpClient = httpClient;
+            _context = context;
         }
 
-        await _context.Users.AddRangeAsync(newUsers);
-
-        foreach (var updatedUser in updatedUsers)
+        public async Task SyncRemoteToLocalAsync()
         {
-            _context.Users.Attach(updatedUser);
-            _context.Entry(updatedUser).State = EntityState.Modified;
+            var users = await FetchRemoteUsersAsync();
+            var existingUserIds = _context.Users.AsNoTracking().Select(u => u.Id).ToHashSet();
+
+            var newUsers = GetNewUsers(users, existingUserIds);
+            var updatedUsers = GetUpdatedUsers(users, existingUserIds);
+
+            DetachExistingUsers();
+            await AddNewUsersAsync(newUsers);
+            UpdateExistingUsers(updatedUsers);
+
+            await _context.SaveChangesAsync();
         }
 
-        await _context.SaveChangesAsync();
-    }
-
-
-    public async Task SyncLocalToRemoteAsync()
-    {
-        var localUsers = _context.Users.ToList();
-        var response = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
-        var remoteUsers = JsonConvert.DeserializeObject<List<User>>(response);
-
-        foreach (var localUser in localUsers)
+        public async Task SyncLocalToRemoteAsync()
         {
-            var remoteUser = remoteUsers.SingleOrDefault(u => u.Id == localUser.Id);
-            Console.WriteLine(remoteUser == null
-                ? $"PUT: {JsonConvert.SerializeObject(localUser)}"
-                : $"UPDATE: {JsonConvert.SerializeObject(localUser)}");
-        }
-    }
+            var localUsers = await _context.Users.ToListAsync();
+            var remoteUsers = await FetchRemoteUsersAsync();
 
-    public void UpdateUser(int userId, string newEmail)
-    {
-        var user = _context.Users.SingleOrDefault(u => u.Id == userId);
-        
-        if (user == null)
-        {
-            throw new UserNotFoundException(userId);
+            foreach (var localUser in localUsers)
+            {
+                var remoteUser = remoteUsers.SingleOrDefault(u => u.Id == localUser.Id);
+                Console.WriteLine(remoteUser == null
+                    ? $"PUT: {JsonConvert.SerializeObject(localUser)}"
+                    : $"UPDATE: {JsonConvert.SerializeObject(localUser)}");
+            }
         }
-        
-        user.Email = newEmail;
-        _context.Users.Update(user);
-        _context.SaveChanges();
-    }
 
-    public void DeleteUser(int userId)
-    {
-        var user = _context.Users.SingleOrDefault(u => u.Id == userId);
-        
-        if (user == null)
+        public void UpdateUser(int userId, string newEmail)
         {
-            throw new UserNotFoundException(userId);
+            var user = ValidateLocalUser(userId);
+            
+            user.Email = newEmail;
+            
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
-        
-        _context.Users.Remove(user);
-        _context.SaveChanges();
+
+        public void DeleteUser(int userId)
+        {
+            var user = ValidateLocalUser(userId);
+            
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+
+        private async Task<List<User>> FetchRemoteUsersAsync()
+        {
+            var response = await _httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
+            
+            return JsonConvert.DeserializeObject<List<User>>(response);
+        }
+
+        private static List<User> GetNewUsers(IEnumerable<User> users, HashSet<int> existingUserIds) => 
+            users.Where(u => !existingUserIds.Contains(u.Id)).ToList();
+
+        private static List<User> GetUpdatedUsers(IEnumerable<User> users, HashSet<int> existingUserIds) => 
+            users.Where(u => existingUserIds.Contains(u.Id)).ToList();
+
+        private void DetachExistingUsers()
+        {
+            var existingUsers = _context.Users.ToList();
+            
+            foreach (var existingUser in existingUsers)
+            {
+                _context.Entry(existingUser).State = EntityState.Detached;
+            }
+        }
+
+        private async Task AddNewUsersAsync(IEnumerable<User> newUsers) => 
+            await _context.Users.AddRangeAsync(newUsers);
+
+        private void UpdateExistingUsers(IEnumerable<User> updatedUsers)
+        {
+            foreach (var updatedUser in updatedUsers)
+            {
+                _context.Users.Attach(updatedUser);
+                _context.Entry(updatedUser).State = EntityState.Modified;
+            }
+        }
+
+        private User ValidateLocalUser(int userId)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Id == userId);
+            
+            if (user == null)
+            {
+                throw new UserNotFoundException(userId);
+            }
+            
+            return user;
+        }
     }
 }
-
