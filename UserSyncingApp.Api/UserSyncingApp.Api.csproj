@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+  <PublishProfile>DefaultContainer</PublishProfile>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <PackageId>UserSyncingApp.Api</PackageId>
+    <RootNamespace>MyApp</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="MyApp" />
+    <Using Include="ServiceStack" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack" Version="8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UserSyncingApp.ServiceInterface\UserSyncingApp.ServiceInterface.csproj" />
+    <ProjectReference Include="..\UserSyncingApp.ServiceModel\UserSyncingApp.ServiceModel.csproj" />
+  </ItemGroup>
+
+</Project>
