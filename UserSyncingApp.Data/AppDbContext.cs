@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyApp.ServiceModel.Types;
+using UserSyncingApp.ServiceModel.Types;
 
 namespace UserSyncingApp.Data;
 

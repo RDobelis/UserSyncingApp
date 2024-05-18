@@ -1,4 +1,4 @@
-﻿namespace MyApp.ServiceModel.Types;
+﻿namespace UserSyncingApp.ServiceModel.Types;
 
 public class User
 {
