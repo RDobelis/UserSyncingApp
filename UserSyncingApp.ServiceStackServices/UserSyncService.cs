@@ -31,14 +31,14 @@ namespace UserSyncingApp.ServiceStackServices
         {
             _userService.UpdateUserEmail(request.UserId, request.NewEmail);
             
-            return new UpdateResponse { Result = "User email updated" };
+            return new UpdateResponse { Result = $"User with ID {request.UserId} was updated with e-mail: {request.NewEmail}" };
         }
 
         public object Any(DeleteUser request)
         {
             _userService.DeleteUser(request.UserId);
             
-            return new DeleteResponse { Result = "User deleted" };
+            return new DeleteResponse { Result = $"User with ID {request.UserId} was deleted" };
         }
     }
 }

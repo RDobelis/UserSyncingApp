@@ -58,7 +58,7 @@ public class UserSyncServiceTests
 
         _userService.Received(1).UpdateUserEmail(1, "newEmail@example.com");
         result.Should().NotBeNull();
-        result!.Result.Should().Be("User email updated");
+        result!.Result.Should().Be("User with ID 1 was updated with e-mail: newEmail@example.com");
     }
     
     [Test]
@@ -70,6 +70,6 @@ public class UserSyncServiceTests
 
         _userService.Received(1).DeleteUser(1);
         result.Should().NotBeNull();
-        result!.Result.Should().Be("User deleted");
+        result!.Result.Should().Be("User with ID 1 was deleted");
     }
 }
