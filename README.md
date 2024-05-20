@@ -74,7 +74,8 @@ Update the `appsettings.json` file with the correct database connection string a
 
 Apply migrations to set up the database schema:
 ```bash
-dotnet ef database update
+dotnet ef migrations add InitialCreate --project UserSyncingApp.Data
+dotnet ef database update --project UserSyncingApp.Data
 ```
 
 ## Usage
@@ -104,11 +105,11 @@ dotnet ef database update
 
 ### Update User Data
 
-- Predefined action to update a field in user data, demonstrating differences from API values.
+- Updating user e-mail as a demonstration of updating user data.
 
 ### Remove User
 
-- Predefined action to remove a user from the local database, showcasing a user present in the API but missing locally.
+- Removing user from the local database by ID.
 
 ## Testing
 
