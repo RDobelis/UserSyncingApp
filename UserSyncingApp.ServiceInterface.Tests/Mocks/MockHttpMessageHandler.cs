@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace UserSyncingApp.Tests.Mocks;
+namespace UserSyncingApp.ServiceInterface.Tests.Mocks;
 
 public class MockHttpMessageHandler : HttpMessageHandler
 {

@@ -10,9 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UserSyncingApp.Data;
+using UserSyncingApp.ServiceInterface.Tests.Mocks;
 using UserSyncingApp.ServiceModel.Exceptions;
 using UserSyncingApp.ServiceModel.Types;
-using UserSyncingApp.Tests.Mocks;
 
 namespace UserSyncingApp.ServiceInterface.Tests;
 

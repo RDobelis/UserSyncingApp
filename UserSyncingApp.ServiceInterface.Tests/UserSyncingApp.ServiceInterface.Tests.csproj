@@ -12,14 +12,12 @@
     <ProjectReference Include="..\UserSyncingApp.ServiceModel\UserSyncingApp.ServiceModel.csproj" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.5" />
-    <PackageReference Include="NSubstitute" Version="5.1.0" />
 
     <PackageReference Include="NUnit" Version="3.13.*" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.1.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="ServiceStack" Version="8.*" />
     <PackageReference Include="ServiceStack.Kestrel" Version="8.*" />
-    <ProjectReference Include="..\UserSyncingApp.ServiceStackServices\UserSyncingApp.ServiceStackServices.csproj" />
   </ItemGroup>
 
 </Project>
