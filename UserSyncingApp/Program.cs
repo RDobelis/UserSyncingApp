@@ -12,13 +12,6 @@ if (!Directory.Exists(dataDirectory))
 
 var app = builder.Build();
 
-// Ensure database is created and migrations are applied.
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();  // Applies any pending migrations for the context to the database.
-}
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
