@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UserSyncingApp.Data;
-
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 // Ensure the Data project directory exists
 var dataDirectory = Path.Combine(Directory.GetCurrentDirectory(), "../UserSyncingApp.Data");
