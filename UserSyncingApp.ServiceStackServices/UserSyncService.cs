@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ServiceStack;
+﻿using ServiceStack;
 using UserSyncingApp.ServiceInterface;
 using UserSyncingApp.ServiceModel.Types;
 

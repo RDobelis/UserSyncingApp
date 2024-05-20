@@ -10,17 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UserSyncingApp.Data;
-using UserSyncingApp.ServiceInterface;
 using UserSyncingApp.ServiceModel.Exceptions;
 using UserSyncingApp.ServiceModel.Types;
 using UserSyncingApp.Tests.Mocks;
 
-namespace UserSyncingApp.Tests;
+namespace UserSyncingApp.ServiceInterface.Tests;
 
 [TestFixture]
 public class UserServiceTests
 {
-    private IUserService _userService;
+    private UserService _userService;
     private HttpClient _httpClient;
     private AppDbContext _context;
     private MockHttpMessageHandler _httpMessageHandler;

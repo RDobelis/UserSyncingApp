@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <DebugType>portable</DebugType>
     <OutputType>Library</OutputType>
+    <RootNamespace>UserSyncingApp.ServiceInterface.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="ServiceStack" Version="8.*" />
     <PackageReference Include="ServiceStack.Kestrel" Version="8.*" />
+    <ProjectReference Include="..\UserSyncingApp.ServiceStackServices\UserSyncingApp.ServiceStackServices.csproj" />
   </ItemGroup>
 
 </Project>
